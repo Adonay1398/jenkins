@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh '/usr/bin/python3 -m unittest discover -s . -p "test_*.py"'
+                        sh 'python3 -m unittest discover -s . -p "test_*.py"'
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         throw e
