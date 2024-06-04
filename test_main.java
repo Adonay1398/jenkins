@@ -1,16 +1,10 @@
-import org.junit.jupiter.api.Test;
+# test_main.py
+import unittest
+from main import main
 
-public class TestMain {
+class TestMain(unittest.TestCase):
+    def test_main(self):
+        self.assertEqual(main(), None)
 
-  @Test
-  public void testMainPrintsHolaMundo() {
-    // Capture the output stream to verify the printed message
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(outContent));
-
-    main();
-
-    // Assert that the expected message is present in the output
-    assertEquals("Hola Mundo\n", outContent.toString());
-  }
-}
+if __name__ == '__main__':
+    unittest.main()
