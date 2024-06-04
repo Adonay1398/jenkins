@@ -1,43 +1,43 @@
 pipeline {
-    agent any
-    stages {
-        stage('Pull') {
-            steps {
-                git 'https://github.com/Adonay1398/jenkins.git'
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'echo "Compilando..."'
-            }
-        }
-        stage('Test') {
-            steps {
-                script {
-                    try {
-                        sh 'python3 -m unittest discover -s . -p "test_*.py"'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
-            }
-        }
-        stage('Deploy') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
-            steps {
-                sh 'echo "Desplegando..."'
-            }
-        }
+  agent any
+  stages {
+    stage('Pull') {
+      steps {
+        git 'https://github.com/Adonay1398/jenkins.git'
+      }
     }
-    post {
-        failure {
-            echo 'Las pruebas han fallado. Rechazando el código.'
-        }
-        success {
-            echo 'Las pruebas pasaron. Continuando con el despliegue.'
-        }
+    stage('Build') {
+      steps {
+        sh 'mvn compile' // Suponiendo que usas Maven para compilar proyectos Java
+      }
     }
+    stage('Test') {
+      steps {
+        script {
+          try {
+            sh 'mvn test' // Suponiendo que usas Maven para ejecutar pruebas JUnit
+          } catch (Exception e) {
+            currentBuild.result = 'FAILURE'
+            throw e
+          }
+        }
+      }
+    }
+    stage('Deploy') {
+      when {
+        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+      }
+      steps {
+        sh 'echo "Desplegando..."'
+      }
+    }
+  }
+  post {
+    failure {
+      echo 'Las pruebas han fallado. Rechazando el código.'
+    }
+    success {
+      echo 'Las pruebas pasaron. Continuando con el despliegue.'
+    }
+  }
 }
