@@ -8,14 +8,14 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh 'javac' // Suponiendo que usas Maven para compilar proyectos Java
+        sh 'java ' // Suponiendo que usas Maven para compilar proyectos Java
       }
     }
     stage('Test') {
       steps {
         script {
           try {
-            sh 'java ' // Suponiendo que usas Maven para ejecutar pruebas JUnit
+            sh 'java Test ' // Suponiendo que usas Maven para ejecutar pruebas JUnit
           } catch (Exception e) {
             currentBuild.result = 'FAILURE'
             throw e
