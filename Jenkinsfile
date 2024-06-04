@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+    PATH = "C:/path/to/dir/containing/python.exe;$PATH"
+}
+
     agent any
     stages {
         stage('Pull') {
